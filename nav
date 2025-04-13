@@ -1,33 +1,39 @@
 <?php
-// loading files 'pages'
-$files = scandir('pages');
+$page = $_GET['page'] ?? 'home';
 
-// destroy "." a ".."
-$pages = array_filter($files, function($file) {
-    return pathinfo($file, PATHINFO_EXTENSION) === 'php';
-});
-
-// Zistenie aktívnej stránky
-$page = $_GET['page'] ?? 'domov';
-$pageFile = "pages/{$page}.php";
-
-// name create
-function prettyName($filename) {
-    $name = pathinfo($filename, PATHINFO_FILENAME);
-    return ucfirst(str_replace('-', ' ', $name));
-}
+$menu = [
+    'home' => 'home',
+    'about-us' => 'About us',
+    'services' => 'Services',
+    'contact' => 'Contact'
+];
 ?>
 
 <nav>
     <ul>
-        <?php foreach ($pages as $file): 
-            $name = pathinfo($file, PATHINFO_FILENAME);
-        ?>
+        <?php foreach ($menu as $key => $label): ?>
             <li>
-                <a href="?page=<?= $name ?>" <?= $page === $name ? 'class="active"' : '' ?>>
-                    <?= prettyName($file) ?>
+                <a href="?page=<?= $key ?>" <?= $page === $key ? 'class="active"' : '' ?>>
+                    <?= $label ?>
                 </a>
             </li>
         <?php endforeach; ?>
     </ul>
 </nav>
+
+<style>
+    nav ul {
+        list-style: none;
+        display: flex;
+        gap: 15px;
+    }
+    nav a {
+        text-decoration: none;
+        color: black;
+    }
+    nav a.active {
+        font-weight: bold;
+        color: red;
+    }
+</style>
+
