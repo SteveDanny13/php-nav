@@ -1,0 +1,19 @@
+<?php
+$files = scandir('.');
+$pages = [];
+
+foreach ($files as $file) {
+    if (pathinfo($file, PATHINFO_EXTENSION) === 'php' && $file !== 'header.php') {
+        $pages[] = $file;
+    }
+}
+?>
+
+<!-- the nav -->
+<nav>
+    <?php foreach ($pages as $file): ?>
+        <a href="<?= $file ?>">
+            <?= ucfirst(pathinfo($file, PATHINFO_FILENAME)) ?>
+        </a>
+    <?php endforeach; ?>
+</nav>
