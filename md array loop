@@ -1,0 +1,19 @@
+<?php
+
+$cars = [
+    "Toyota" => ["Power" => 150, "Year" => 2020, "Fuel" => "Petrol"],
+    "BMW" => ["Power" => 220, "Year" => 2018, "Fuel" => "Diesel"],
+    "Tesla" => ["Power" => 300, "Year" => 2022, "Fuel" => "Electric"]
+];
+
+$keys = array_keys($cars);
+
+for ($i = 0; $i < count($cars); $i++) {
+    echo $keys[$i] . "<br>";
+    foreach ($cars[$carNames[$i]] as $attribute => $value) {
+        echo $attribute . " : " . $value . "<br>";
+    }
+
+    echo "<br>";
+}
+?>
