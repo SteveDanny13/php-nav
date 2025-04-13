@@ -1,0 +1,27 @@
+<?php
+
+$urls =    [
+
+            'https://www.youtube.com/', 
+            'https://www.soundcloud.com/'
+
+            ];
+
+
+
+
+            foreach ($urls as $url) {
+               
+                $clean = str_replace(['https://', 'http://', 'www.'], '', $url);
+            
+                
+                $clean = explode('/', $clean)[0];
+            
+               
+                $parts = explode('.', $clean);
+            
+                $name = $parts[0];
+            
+                echo "<a href='$url'>$name</a><br>";
+    }
+?>
