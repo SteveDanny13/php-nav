@@ -1,0 +1,33 @@
+<?php
+// loading files 'pages'
+$files = scandir('pages');
+
+// destroy "." a ".."
+$pages = array_filter($files, function($file) {
+    return pathinfo($file, PATHINFO_EXTENSION) === 'php';
+});
+
+// Zistenie aktívnej stránky
+$page = $_GET['page'] ?? 'domov';
+$pageFile = "pages/{$page}.php";
+
+// name create
+function prettyName($filename) {
+    $name = pathinfo($filename, PATHINFO_FILENAME);
+    return ucfirst(str_replace('-', ' ', $name));
+}
+?>
+
+<nav>
+    <ul>
+        <?php foreach ($pages as $file): 
+            $name = pathinfo($file, PATHINFO_FILENAME);
+        ?>
+            <li>
+                <a href="?page=<?= $name ?>" <?= $page === $name ? 'class="active"' : '' ?>>
+                    <?= prettyName($file) ?>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</nav>
