@@ -1,0 +1,53 @@
+<?php
+session_start();
+include 'partials/header.php';
+
+
+$display = $_SESSION['display'] ?? '0';
+$number1 = $_SESSION['number1'] ?? '';
+$operator = $_SESSION['operator'] ?? '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $input = key($_POST);
+
+    if (is_numeric($input)) {
+        $display = ($display == '0') ? $input : $display . $input;
+    } elseif (in_array($input, ['+', '-', '*', '/'])) {
+        $number1 = $display;
+        $operator = $input;
+        $display = '0';
+    } elseif ($input == "equals" && $number1 !== '' && $operator !== '') {
+        $number2 = $display;
+        $display = eval("return $number1 $operator $number2;");
+
+
+        file_put_contents("vypocet.txt", "$number1 $operator $number2 = $display\n", FILE_APPEND);
+
+        $number1 = $operator = '';
+    } elseif ($input == "clear") {
+        $display = $number1 = $operator = '0';
+    }
+}
+
+
+$_SESSION = compact('display', 'number1', 'operator');
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+<body>
+    <form method="POST">
+        <div><?= htmlspecialchars($display) ?></div>
+        <?php foreach ([1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '+', '-', '*', '/'] as $btn): ?>
+            <button type="submit" name="<?= $btn ?>"><?= $btn ?></button>
+        <?php endforeach; ?>
+        <button type="submit" name="equals">=</button>
+        <button type="submit" name="clear">C</button>
+    </form>
+</body>
+</html>
+<?php include 'partials/footer.php'; ?>
