@@ -10,8 +10,8 @@ $keys = array_keys($cars);
 
 for ($i = 0; $i < count($cars); $i++) {
     echo $keys[$i] . "<br>";
-    foreach ($cars[$carNames[$i]] as $attribute => $value) {
-        echo $attribute . " : " . $value . "<br>";
+    foreach ($cars[$keys[$i]] as $key => $value) {
+        echo $key . " : " . $value . "<br>";
     }
 
     echo "<br>";
